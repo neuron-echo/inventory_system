@@ -1,0 +1,52 @@
+Static Code Analysis – Issues Documentation
+
+During the static analysis of the provided 'inventory_system.py' program using Pylint, Bandit, and Flake8, 
+a number of issues were identified and corrected to improve code quality, security, and maintainability. 
+Below is a summary of the key issues found and the steps taken to fix them.
+
+1. Mutable Default Argument (Pylint):
+The function 'addItem()' originally had a mutable default argument 'logs=[]', which can cause unexpected 
+behavior because the same list object is shared across function calls. This was fixed by changing the 
+default to 'logs=None' and initializing it inside the function.
+
+2. Bare Except Block (Bandit):
+The code contained an 'except:' block without specifying an exception type. This practice hides real 
+errors and makes debugging difficult. It was replaced with 'except KeyError as e:' and proper logging 
+was added to handle specific exceptions.
+
+3. Insecure Function Usage (Bandit):
+The code used the 'eval()' function, which can execute arbitrary code and is a severe security risk. 
+This line was removed completely to eliminate the vulnerability.
+
+4. Unclosed File Handles (Pylint / Flake8):
+The code used 'open()' and 'close()' manually, which could lead to resource leaks. It was corrected by 
+using the 'with open(...)' context manager, which ensures proper closing of files automatically.
+
+5. Weak String Formatting (Pylint):
+The old '%' style string formatting was used throughout the code, making it less readable. All such 
+instances were updated to modern f-strings for better clarity and maintainability.
+
+6. Missing Input Validation (Bandit / Pylint):
+Functions such as 'addItem()' and 'removeItem()' accepted incorrect data types like integers or strings 
+in invalid positions. Type validation using 'isinstance()' was added to ensure only proper inputs are 
+processed.
+
+7. Global Variable Usage Warning (Pylint):
+The global variable 'stock_data' was being modified directly without documentation. A docstring was 
+added to clarify its purpose and justify its usage as a global storage dictionary.
+
+8. Logging Not Configured (Pylint):
+The original code relied on print statements only. A proper logging configuration using Python’s 
+'logging' module was added with timestamps and log levels for better debugging and traceability.
+
+9. Missing Docstrings (Flake8 / Pylint):
+None of the functions contained docstrings explaining their behavior. Each function now has a descriptive 
+docstring summarizing its purpose, parameters, and return values.
+
+10. Style and Spacing Issues (Flake8):
+Minor formatting issues such as inconsistent indentation, line length, and missing spaces were present. 
+These were corrected to align with PEP 8 style guidelines.
+
+In total, ten issues were fixed, addressing high, medium, and low severity problems. The final version 
+of 'inventory_system.py' is now secure, well-documented, and follows best coding practices, ensuring 
+better readability and maintainability.
